@@ -24,8 +24,8 @@ app.get("/killall", async (req, res) => {
   res.status(200).send(`All borwsers killed total count ${count}`);
 });
 // Initialize server
-app.listen(5001, () => {
-  console.log("Running on port 5001.");
+app.listen(1337, () => {
+  console.log("Running on port 1337.");
 });
 
 module.exports = app;
