@@ -2,7 +2,7 @@ const { chromium } = require("playwright");
 
 async function testPlaywright() {
   const browser = await chromium.launch({
-    headless: false,
+    headless: true,
   });
   const page = await browser.newPage();
   await page.goto("https://google.co.in");
