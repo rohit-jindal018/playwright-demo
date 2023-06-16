@@ -6,6 +6,7 @@
         "use": "@now/node"
       }
     ],
+    "installCommand": "npm run play-install",
     "routes": [
         {
           "src": "/(.*)",
