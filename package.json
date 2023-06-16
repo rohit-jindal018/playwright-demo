@@ -11,8 +11,7 @@
     "playwright": "^1.35.1"
   },
   "scripts": {
-    "build": "node index.js",
-    "chrome-install": "npx playwright install",
+    "chrome-install": "npx playwright install chromium",
     "play-install":"npm run chrome-install && npm install"
   }
 }
