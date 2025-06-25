@@ -20,9 +20,6 @@ jobs:
   raise-pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
       - name: Create Pull Request
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Use a PAT stored in secrets
@@ -34,3 +31,24 @@ jobs:
             --base "${{ github.event.inputs.target_branch }}" \
             --title "${{ github.event.inputs.pr_title }}" \
             --body "${{ github.event.inputs.pr_body || 'PR created via GitHub Action' }}"
+
+      - name: Create PR and capture URL
+        id: create_pr
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          PR_OUTPUT=$(gh pr create \
+            --head "${{ github.event.inputs.source_branch }}" \
+            --base "${{ github.event.inputs.target_branch }}" \
+            --title "${{ github.event.inputs.pr_title }}" \
+            --body "${{ github.event.inputs.pr_body || 'Auto-created PR' }}")
+          echo "PR Output: $PR_OUTPUT"
+          # Extract PR number from URL
+          PR_NUMBER=$(echo "$PR_OUTPUT" | grep -oE '[0-9]+$')
+          echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+
+      - name: Add label to PR
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          gh pr edit "${{ steps.create_pr.outputs.pr_number }}" --add-label "your-label-name"
