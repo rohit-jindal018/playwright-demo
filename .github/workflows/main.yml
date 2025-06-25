@@ -42,4 +42,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          gh pr edit "${{ steps.create_pr.outputs.pr_number }}" --add-label "your-label-name"
+          gh pr edit "${{ steps.create_pr.outputs.pr_number }}" --add-label "invalid"
