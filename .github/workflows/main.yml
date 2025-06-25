@@ -22,18 +22,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        
-      - name: Create Pull Request
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Use a PAT stored in secrets
-        run: |
-          echo "Creating PR from '${{ github.event.inputs.source_branch }}' to '${{ github.event.inputs.target_branch }}'"
-          
-          gh pr create \
-            --head "${{ github.event.inputs.source_branch }}" \
-            --base "${{ github.event.inputs.target_branch }}" \
-            --title "${{ github.event.inputs.pr_title }}" \
-            --body "${{ github.event.inputs.pr_body || 'PR created via GitHub Action' }}"
 
       - name: Create PR and capture URL
         id: create_pr
