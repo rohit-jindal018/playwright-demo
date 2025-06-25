@@ -1,0 +1,36 @@
+name: Raise Pull Request
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: 'Source branch name'
+        required: true
+      target_branch:
+        description: 'Target branch name'
+        required: true
+      pr_title:
+        description: 'Pull Request title'
+        required: true
+      pr_body:
+        description: 'Pull Request body'
+        required: false
+
+jobs:
+  raise-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Use a PAT stored in secrets
+        run: |
+          echo "Creating PR from '${{ github.event.inputs.source_branch }}' to '${{ github.event.inputs.target_branch }}'"
+          
+          gh pr create \
+            --head "${{ github.event.inputs.source_branch }}" \
+            --base "${{ github.event.inputs.target_branch }}" \
+            --title "${{ github.event.inputs.pr_title }}" \
+            --body "${{ github.event.inputs.pr_body || 'PR created via GitHub Action' }}"
